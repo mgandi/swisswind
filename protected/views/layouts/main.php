@@ -4,6 +4,18 @@
 // Set default parameter for style
 $defaultParams = $this->style == 'clear' ? array() : array('style'=>'dark');
 
+// Compute classes and URLs for menus
+$indexMenu = $this->action->id == 'index' ? 'class="active"' : '';
+$dataMenu = $this->action->id == 'data' ? 'class="active"' : '';
+$infoMenu = $this->action->id == 'info' ? 'class="active"' : '';
+$clearMenu = $this->style == 'dark' ? '' : 'class="active"';
+$darkMenu = $this->style == 'dark' ? 'class="active"' : '';
+$indexUrl = Yii::app()->createAbsoluteUrl('site/index', $defaultParams);
+$dataUrl = Yii::app()->createAbsoluteUrl('site/data', $defaultParams);
+$infoUrl = Yii::app()->createAbsoluteUrl('site/info', $defaultParams);
+$clearUrl = Yii::app()->createAbsoluteUrl($this->uniqueId.'/'.$this->action->id);
+$darkUrl = Yii::app()->createAbsoluteUrl($this->uniqueId.'/'.$this->action->id, array('style'=>'dark'));;
+
 // Register script
 Yii::app()->clientScript->registerSCript('layout', "
 $.supersized({
@@ -42,38 +54,40 @@ $.supersized({
 
 <body class="<?php echo ($this->style == 'dark' ? 'dark' : ''); ?>">
 
-  <div class="container content">
-  
-    <div class="affix" data-spy="affix" data-offset-top="20">
-      <nav class="navbar <?php echo ($this->style == 'dark' ? 'navbar-default' : 'navbar-inverse'); ?>" role="navigation">
-        <div class="container-fluid">
+  <header class="banner">
+    <div class="affix affix-navbar" data-spy="affix" data-offset-top="40">
+      <div class="container">
+        <nav class="navbar <?php echo ($this->style == 'dark' ? 'navbar-default' : 'navbar-inverse'); ?>" role="navigation">
+          <div class="container-fluid">
+          
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="<?php echo Yii::app()->createAbsoluteUrl('site/index', $defaultParams); ?>">SwissWind</a>
+            </div>
         
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="<?php echo Yii::app()->createAbsoluteUrl('site/index', $defaultParams); ?>">SwissWind</a>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            
+              <ul class="nav navbar-nav navbar-right">
+                <li <?php echo $indexMenu; ?>><a href="<?php echo $indexUrl ?>">Home</a></li>
+                <li <?php echo $dataMenu ?>><a href="<?php echo $dataUrl ?>">Wind</a></li>
+                <li <?php echo $infoMenu ?>><a href="<?php echo $infoUrl ?>">Info</a></li>
+                <li <?php echo $clearMenu ?>><a href="<?php echo $clearUrl ?>">Clear</a></li>
+                <li <?php echo $darkMenu ?>><a href="<?php echo $darkUrl ?>">Dark</a></li>
+              </ul>
+            </div>
+            
           </div>
-      
-          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="<?php echo Yii::app()->createAbsoluteUrl('site/index', $defaultParams); ?>">Home</a></li>
-              <li><a href="<?php echo Yii::app()->createAbsoluteUrl('site/data', $defaultParams); ?>">Wind</a></li>
-              <li><a href="<?php echo Yii::app()->createAbsoluteUrl('site/info', $defaultParams); ?>">Info</a></li>
-            </ul>
-          
-            <ul class="nav navbar-nav navbar-right">
-              <li class="<?php echo ($this->style == 'dark' ? '' : 'active'); ?>"><a href="<?php echo Yii::app()->createAbsoluteUrl($this->uniqueId.'/'.$this->action->id); ?>">Clear</a></li>
-              <li class="<?php echo ($this->style == 'dark' ? 'active' : ''); ?>"><a href="<?php echo Yii::app()->createAbsoluteUrl($this->uniqueId.'/'.$this->action->id, array('style'=>'dark')); ?>">Dark</a></li>
-            </ul>
-          </div>
-          
-        </div>
-      </nav>
+        </nav>
+      </div>
     </div>
+  </header>
+
+  <div class="container content">
   
     <?php echo $content; ?>
     
