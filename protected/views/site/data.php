@@ -392,4 +392,7 @@ echo '<option>' . $stations[$i]->name . '</option>';
     <div class="col-md-4"><div id="chartwindrose" style="height:400px;"></div></div>
     <div class="col-md-8"><div id="chartclassic" style="height:400px;"></div></div>
   </div>
+<div class="row">
+    <div class="col-md-12"><div id="counter"></div></div>
+</div>
 </div>
